@@ -1,0 +1,44 @@
+%{
+#include <math.h>
+#include "string.h"
+#include "opnum.h"
+%}
+
+DIG    [0-9]
+ID     [A-Za-z_][A-Z_a-z0-9]*
+
+%%
+
+{DIG}+                 { return SYM_INTEG;  }
+{DIG}+"."{DIG}*        { return SYM_FLOAT;  }
+{ID}                   { return SYM_NAME;   }
+"+"                    { return SYM_ADD; }
+"-"                    { return SYM_SUB; }
+"*"                    { return SYM_MUL; }
+"/"                    { return SYM_DIV; }
+
+"//"[^\r\n]*[\r\n]+    /* eat up one-line comments */
+
+[ \t]*           /* eat up open spaces */
+
+[\r\n]+          { return SYM_ENDLN;  }
+
+.                { return SYM_INVAL;   }
+
+%%
+
+char * get_opnum( int * val)
+{
+   /* upon EOF, yylex returns zero */
+   *val = yylex();
+   return yytext; 
+}
+
+void set_input(int argc, char **argv)
+{
+    ++argv, --argc;  /* skip over program name */
+    if ( argc > 0 )
+            yyin = fopen( argv[0], "r" );
+    else
+            yyin = stdin;
+}

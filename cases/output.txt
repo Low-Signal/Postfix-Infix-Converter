@@ -1,0 +1,206 @@
+[yuw@linprog1 proj04]$ make clean; make 
+rm -f line_parser bet_driver  opnum.cpp line_parser.o bet_driver.o opnum.o *.bak *~
+g++ -std=c++11 -g -c line_parser.cpp
+flex -o opnum.cpp opnum.fl
+g++ -std=c++11 -g -c opnum.cpp
+g++ -std=c++11 -g line_parser.o opnum.o -o line_parser -ll
+g++ -std=c++11 -g -c bet_driver.cpp
+g++ -std=c++11 -g bet_driver.o opnum.o -o bet_driver -ll
+
+[yuw@linprog1 proj04]$ ./line_parser cases/test0.txt
+[2]: 4; 
+[2]: 50; 
+[2]: 6; 
+[4]: +; 
+[4]: +; 
+[8]: 
+; 
+[2]: 4; 
+[2]: 50; 
+[4]: +; 
+[2]: 6; 
+[4]: +; 
+[8]: 
+; 
+[2]: 4; 
+[2]: 50; 
+[4]: +; 
+[2]: 6; 
+[2]: 2; 
+[6]: *; 
+[4]: +; 
+[8]: 
+; 
+[2]: 4; 
+[2]: 50; 
+[2]: 6; 
+[4]: +; 
+[4]: +; 
+[2]: 2; 
+[6]: *; 
+[8]: 
+; 
+[1]: a; 
+[1]: b; 
+[4]: +; 
+[1]: c; 
+[1]: d; 
+[1]: e; 
+[4]: +; 
+[6]: *; 
+[6]: *; 
+[8]: 
+; 
+Postfix list: 
+4 50 6 + + 
+4 50 + 6 + 
+4 50 + 6 2 * + 
+4 50 6 + + 2 * 
+a b + c d e + * * 
+
+[yuw@linprog1 proj04]$ ./bet_driver cases/test0.txt
+Postfix expression: 4 50 6 + + 
+Infix expression: 4 + (50 + 6 ) 
+Number of nodes: 5
+Number of leaf nodes: 3
+Testing copy constructor: 4 + (50 + 6 ) 
+Testing assignment operator: 4 + (50 + 6 ) 
+Terminating one line ... ...
+
+Postfix expression: 4 50 + 6 + 
+Infix expression: 4 + 50 + 6 
+Number of nodes: 5
+Number of leaf nodes: 3
+Testing copy constructor: 4 + 50 + 6 
+Testing assignment operator: 4 + 50 + 6 
+Terminating one line ... ...
+
+Postfix expression: 4 50 + 6 2 * + 
+Infix expression: 4 + 50 + 6 * 2 
+Number of nodes: 7
+Number of leaf nodes: 4
+Testing copy constructor: 4 + 50 + 6 * 2 
+Testing assignment operator: 4 + 50 + 6 * 2 
+Terminating one line ... ...
+
+Postfix expression: 4 50 6 + + 2 * 
+Infix expression: (4 + (50 + 6 ) ) * 2 
+Number of nodes: 7
+Number of leaf nodes: 4
+Testing copy constructor: (4 + (50 + 6 ) ) * 2 
+Testing assignment operator: (4 + (50 + 6 ) ) * 2 
+Terminating one line ... ...
+
+Postfix expression: a b + c d e + * * 
+Infix expression: (a + b ) * (c * (d + e ) ) 
+Number of nodes: 9
+Number of leaf nodes: 5
+Testing copy constructor: (a + b ) * (c * (d + e ) ) 
+Testing assignment operator: (a + b ) * (c * (d + e ) ) 
+Terminating one line ... ...
+
+[yuw@linprog1 proj04]$ ./bet_driver cases/test1.txt
+Postfix expression: 5 3 + 12 * 7 - 
+Infix expression: (5 + 3 ) * 12 - 7 
+Number of nodes: 7
+Number of leaf nodes: 4
+Testing copy constructor: (5 + 3 ) * 12 - 7 
+Testing assignment operator: (5 + 3 ) * 12 - 7 
+Terminating one line ... ...
+
+Postfix expression: 5 3 12 * + 7 - 
+Infix expression: 5 + 3 * 12 - 7 
+Number of nodes: 7
+Number of leaf nodes: 4
+Testing copy constructor: 5 + 3 * 12 - 7 
+Testing assignment operator: 5 + 3 * 12 - 7 
+Terminating one line ... ...
+
+Postfix expression: 5.0 9 1 6 - + * 7.1 - 
+Infix expression: 5.0 * (9 + (1 - 6 ) ) - 7.1 
+Number of nodes: 9
+Number of leaf nodes: 5
+Testing copy constructor: 5.0 * (9 + (1 - 6 ) ) - 7.1 
+Testing assignment operator: 5.0 * (9 + (1 - 6 ) ) - 7.1 
+Terminating one line ... ...
+
+Postfix expression: 5.0 9 1 - 6 - * 7.1 - 
+Infix expression: 5.0 * (9 - 1 - 6 ) - 7.1 
+Number of nodes: 9
+Number of leaf nodes: 5
+Testing copy constructor: 5.0 * (9 - 1 - 6 ) - 7.1 
+Testing assignment operator: 5.0 * (9 - 1 - 6 ) - 7.1 
+Terminating one line ... ...
+
+[yuw@linprog1 proj04]$ ./bet_driver cases/test2.txt
+Postfix expression: a b1 c * dd e / f + + + G * 
+Infix expression: (a + (b1 * c + (dd / e + f ) ) ) * G 
+Number of nodes: 13
+Number of leaf nodes: 7
+Testing copy constructor: (a + (b1 * c + (dd / e + f ) ) ) * G 
+Testing assignment operator: (a + (b1 * c + (dd / e + f ) ) ) * G 
+Terminating one line ... ...
+
+Postfix expression: a b1 * c dd e * f - + - G * 
+Infix expression: (a * b1 - (c + (dd * e - f ) ) ) * G 
+Number of nodes: 13
+Number of leaf nodes: 7
+Testing copy constructor: (a * b1 - (c + (dd * e - f ) ) ) * G 
+Testing assignment operator: (a * b1 - (c + (dd * e - f ) ) ) * G 
+Terminating one line ... ...
+
+[yuw@linprog1 proj04]$ ./bet_driver cases/test3.txt
+Postfix expression: 3 5 * c - 10 / 
+Infix expression: (3 * 5 - c ) / 10 
+Number of nodes: 7
+Number of leaf nodes: 4
+Testing copy constructor: (3 * 5 - c ) / 10 
+Testing assignment operator: (3 * 5 - c ) / 10 
+Terminating one line ... ...
+
+Postfix expression: 3 9 7 - 8 - 10 + 5.2 / - 
+Infix expression: 3 - (9 - 7 - 8 + 10 ) / 5.2 
+Number of nodes: 11
+Number of leaf nodes: 6
+Testing copy constructor: 3 - (9 - 7 - 8 + 10 ) / 5.2 
+Testing assignment operator: 3 - (9 - 7 - 8 + 10 ) / 5.2 
+Terminating one line ... ...
+
+Postfix expression: 5 3.1 - 10 4 - - 3.5 2.1 * 2.4 - * 
+Infix expression: (5 - 3.1 - (10 - 4 ) ) * (3.5 * 2.1 - 2.4 ) 
+Number of nodes: 13
+Number of leaf nodes: 7
+Testing copy constructor: (5 - 3.1 - (10 - 4 ) ) * (3.5 * 2.1 - 2.4 ) 
+Testing assignment operator: (5 - 3.1 - (10 - 4 ) ) * (3.5 * 2.1 - 2.4 ) 
+Terminating one line ... ...
+
+Postfix expression: 5 3.1 - 10 - 4 - 3.5 * 2.1 2.4 - * 
+Infix expression: (5 - 3.1 - 10 - 4 ) * 3.5 * (2.1 - 2.4 ) 
+Number of nodes: 13
+Number of leaf nodes: 7
+Testing copy constructor: (5 - 3.1 - 10 - 4 ) * 3.5 * (2.1 - 2.4 ) 
+Testing assignment operator: (5 - 3.1 - 10 - 4 ) * 3.5 * (2.1 - 2.4 ) 
+Terminating one line ... ...
+
+[yuw@linprog1 proj04]$ ./bet_driver cases/test4.txt
+Error: Operator [-] has only one operand: [5]: -; 
+Incorrect construction from postfix ...
+
+Terminating one line ... ...
+
+Unpaired opcode: [6]: *; 
+Incorrect construction from postfix ...
+
+Terminating one line ... ...
+
+[yuw@linprog1 proj04]$ ./bet_driver cases/test5.txt
+Error: Operator [*] has only one operand: [4]: +; 
+Incorrect construction from postfix ...
+
+Terminating one line ... ...
+
+Unpaired opcode: [5]: -; 
+Incorrect construction from postfix ...
+
+Terminating one line ... ...
+

@@ -1,0 +1,2 @@
+The runtime complexity for the makeEmpty(BinaryNode* &t) is O(n) complexity where
+n is the number of nodes. Each node is only called once so the complexity increases linearly.

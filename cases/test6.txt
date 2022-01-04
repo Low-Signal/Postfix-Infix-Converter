@@ -1,0 +1,35 @@
+5 3.1 - 4 - - 3.5 2.1 * 2.4 - *
+
+
+    template <typename T>
+    void BET<T>::printInfixExpression(BinaryNode *t)
+    {
+        if( t != nullptr )
+        {   
+            // If it is a leaf node print
+            if(t->leftChild == nullptr && t->rightChild == nullptr)
+            {
+                cout<< t->element.getValue() << " ";
+            }
+            else
+            {
+                if(t->leftChild->element.getType() >= SYM_OPCODE && t->element.getType() >= SYM_OPCODE && t->element.getType() >= t->rightChild->element.getType() && t->element.getType() >= t->leftChild->element.getType() )
+                    cout << "( ";
+
+                printInfixExpression(t->leftChild);
+
+                if(t->leftChild->element.getType() >= SYM_OPCODE && t->element.getType() >= SYM_OPCODE && t->element.getType() >= t->rightChild->element.getType() && t->element.getType() >= t->leftChild->element.getType() )
+                    cout << ") ";
+
+                cout << t->element.getValue() << " ";
+
+                if(t->rightChild->element.getType() >= SYM_OPCODE && t->element.getType() >= SYM_OPCODE && t->element.getType() >= t->leftChild->element.getType() && t->element.getType() >= t->rightChild->element.getType() )
+                    cout << "( ";
+
+                printInfixExpression(t->rightChild);
+
+                if(t->rightChild->element.getType() >= SYM_OPCODE && t->element.getType() >= SYM_OPCODE && t->element.getType() >= t->leftChild->element.getType() && t->element.getType() >= t->rightChild->element.getType() )
+                    cout << ") "; 
+            }   
+        }
+    }
